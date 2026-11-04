@@ -6,28 +6,15 @@ Date: 2026-11-04
 
 | Item | Value |
 |---|---|
-| Location | `/home/user/ml-forge` (new local Git repository) |
-| Branch | `feature/m1-learning-loop` (no commits on `main`) |
-| Remote | **none** — see below |
+| Repository | https://github.com/SaginbekDaniel/ML-Forge |
+| Branches | `main` (default) and `feature/m1-learning-loop` — same commits |
+| Merge | `main` was created by fast-forward from `feature/m1-learning-loop` at the owner's request |
 
-**Repository access was blocked:** the request contained the literal placeholder
-`[INSERT GITHUB REPOSITORY URL]`, the session's GitHub connector listed no repositories and the
-environment's `GH_TOKEN` was rejected by GitHub. No existing ML Forge code could be audited. Per spec
-§M0 a new monorepo was created; nothing was pushed, merged or published.
-
-**Exact next action to publish:** create (or point me to) the GitHub repository, authorise GitHub
-for this environment, then:
-
-```bash
-git remote add origin git@github.com:<owner>/ml-forge.git
-```
-
-```bash
-git push -u origin feature/m1-learning-loop
-```
-
-If an earlier ML Forge codebase exists, compare it with this branch before merging — this work
-assumed a greenfield start.
+At the start of the work the request contained the placeholder `[INSERT GITHUB REPOSITORY URL]`
+and no repository was reachable, so the code was built in a new local repository (spec §M0). The
+owner then supplied the URL. The GitHub repository was **empty** (no branches or commits) when it
+was attached, so there was no existing code to audit or preserve; the branch was pushed and merged
+to `main` without rewriting any history.
 
 ## 2. Specification analysis
 
@@ -107,7 +94,8 @@ Measured latency: GET p95 ≤ 21 ms (target 500 ms); Run end-to-end p95 757 ms (
 
 * Not yet verified on **macOS + Docker Desktop + Safari** (environment was Linux/Chromium).
 * No live Claude API call (no key); AI is stub-tested.
-* CI workflow written but never executed (no remote).
+* CI workflow (`.github/workflows/ci.yml`) is in the repository; its first GitHub Actions run was
+  not observed from this environment (GitHub API access here is limited) — check the Actions tab.
 * Content: 4 of the planned skills; lesson prose Russian only (UI bilingual); 2 assessment variants per skill.
 * Peak memory per run not measured (limit + memory-limit state shown).
 * M2–M5 (AI roles/planner, labs, projects, DL, production ML) not started — shown only as planned.
@@ -122,7 +110,7 @@ Docker is not a boundary for hostile public hosting (needs microVM/gVisor + auth
 ## 10. Next milestone
 
 1. Run `make setup && make test && make e2e` on the target MacBook; re-measure latency; Safari pass.
-2. Connect GitHub, push the branch, open a PR, let CI run.
+2. Check the first GitHub Actions run and fix anything environment-specific.
 3. M2: add python.functions and python.dicts_sets (lessons + 5 validated tasks each), peak-memory
    metric, structured-output AI roles with "needs review" flags, AI drafting pipeline behind human review.
 
@@ -151,4 +139,5 @@ All on `feature/m1-learning-loop`:
 | `65d32e5` | M0/M1 backend: sandbox runner, content pipeline, FastAPI learning loop |
 | `88862e1` | M1 frontend: Next.js workspace wired to the real API |
 | `5f87aa7` | Tests and tooling: unit, integration, sandbox security, E2E, Makefile |
-| (final) | Docs, UI polish, benchmark, version-guard test — see `git log` |
+| `4ee8ea5` | Docs, UI polish, benchmark, version-guard test |
+| (this) | Docs updated after publishing to GitHub — see `git log` |

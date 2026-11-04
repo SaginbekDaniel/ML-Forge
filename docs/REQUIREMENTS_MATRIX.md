@@ -22,7 +22,7 @@ Status: **COMPLETE** (implemented and verified by the named check) · **PARTIAL*
 | R-11 | ≥12 quality Python tasks with multiple tests incl. edge cases | 2 M1 | COMPLETE (21) | `content/curriculum/exercises` | `make seed` validation, `test_real_curriculum…` | — | P0 |
 | R-12 | ≥4 topic explanations (I/O & types, branching, loops, strings/lists) | 2 M1 | COMPLETE | `content/curriculum/lessons` | seed validation of examples & answers | English translations of lesson text | P0 |
 | R-13 | Basic review plan without AI | 2 M1, 3.4 | COMPLETE | `domain/progress.py` | `test_review_cycle`, unit tests | — | P0 |
-| R-14 | Automated backend/frontend/E2E tests | 2 M1, 15 | COMPLETE | `services/*/tests`, `apps/web/src/**/*.test.ts`, `tests/e2e` | `TEST_REPORT.md` | CI run on GitHub not executed (no repo) | P0 |
+| R-14 | Automated backend/frontend/E2E tests | 2 M1, 15 | COMPLETE | `services/*/tests`, `apps/web/src/**/*.test.ts`, `tests/e2e` | `TEST_REPORT.md` | First CI run on GitHub not observed | P0 |
 | R-15 | Versioned DAG of competencies with skill IDs | 3, 3.1 | COMPLETE | `skills.yaml`, `loader.find_cycle` | `test_prerequisite_graph…`, `test_cycle_in_content_is_rejected` | Only Python Core track has content | P0 |
 | R-16 | Per-skill status, mastery_score, last_evidence_at, next_review_at, evidence, hint_dependency, failure_tags | 3.3 | COMPLETE | `models.SkillState`, `domain/progress.py` | API tests | — | P0 |
 | R-17 | Mastery rule (2 tasks ≥85 %, one hint-free, independent check) | 3.3 | COMPLETE | `domain/mastery.py` | `test_mastery.py` (10 cases) | Concept explanations graded by rubric (M2) | P0 |
@@ -73,7 +73,7 @@ Status: **COMPLETE** (implemented and verified by the named check) · **PARTIAL*
 | R-62 | Backups, test restore, backup before destructive migration | 14 | COMPLETE | `backup.py`, `runtime.migrate` | `test_backup_restore_and_export` | — | P0 |
 | R-63 | Make targets §16.1 | 16.1 | COMPLETE | `Makefile` | used in report | — | P0 |
 | R-64 | Docs: README, ARCHITECTURE, SECURITY, TEST_REPORT, .env.example, ADR, plan | 16 | COMPLETE | `docs/` | — | — | P0 |
-| R-65 | GitHub workflow / PR | 16, 8 | BLOCKED | `.github/workflows/ci.yml` | not executed | Repository URL not provided; GitHub token invalid | P0 |
+| R-65 | GitHub repo, workflow, merge | 16 | PARTIAL | `.github/workflows/ci.yml`, pushed to `SaginbekDaniel/ML-Forge`, merged to `main` | push verified | First Actions run not observed from this environment | P0 |
 | R-66 | PyTorch/DL, CV, LLM, production ML tracks | M4–M5 | MISSING | planned skills only | — | M4–M5 | P2 |
 
 ## Ambiguities and interpretations

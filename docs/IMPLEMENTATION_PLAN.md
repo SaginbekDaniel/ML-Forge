@@ -62,5 +62,5 @@ rollback exercise; capstone with independent defense; GitHub-ready export withou
 ## Immediate next narrow priority
 
 1. Run `make setup && make test && make e2e` on the target MacBook (Docker Desktop, Safari smoke).
-2. Connect the GitHub repository and open a PR from `feature/m1-learning-loop`.
+2. Check the first GitHub Actions run on `main`.
 3. Start M2 with content: python.functions and python.dicts_sets (lessons + 5 tasks each).

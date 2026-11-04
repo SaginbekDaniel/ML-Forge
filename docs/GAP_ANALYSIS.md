@@ -10,9 +10,9 @@
   `ML_FORGE_TECHNICAL_SPEC.md` and was read in full.
 
 **Consequence:** there was no existing implementation to audit, preserve or regress. Per spec §M0
-("if there is no repository, create a monorepo"), a new repository was created locally on branch
-`feature/m1-learning-loop`. If an existing ML Forge repository exists elsewhere, it must be compared
-with this one before merging (see *Next action* in `IMPLEMENTATION_REPORT.md`).
+("if there is no repository, create a monorepo"), a new repository was created on branch
+`feature/m1-learning-loop`. The owner later supplied https://github.com/SaginbekDaniel/ML-Forge,
+which was empty; the work was pushed there and fast-forwarded into `main`.
 
 ## Progress overview (criteria-based, not a guessed percentage)
 
@@ -30,7 +30,6 @@ with this one before merging (see *Next action* in `IMPLEMENTATION_REPORT.md`).
 
 | Gap | Current | Desired | Root cause | Next step |
 |---|---|---|---|---|
-| Push / PR to the user's GitHub repo | 3 local commits on `feature/m1-learning-loop` | Branch on GitHub + PR | No repository URL; invalid token; connector has no repos | Provide the repo (or create one) and authorise GitHub for this environment; then `git remote add origin … && git push -u origin feature/m1-learning-loop` |
 | Real Claude API call | Adapter + stub tests | Verified live call with cost telemetry | No `ANTHROPIC_API_KEY` in this environment (by design optional) | Put the key in `.env`, ask a question in Practice → Mentor; check `ai_interactions` |
 | Safari / macOS verification | Chromium on Linux | Safari + Docker Desktop on Mac | Environment is Linux, no WebKit | Run `make setup && make e2e` on the Mac; add a WebKit project to Playwright |
 

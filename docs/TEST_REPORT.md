@@ -1,6 +1,6 @@
 # Test report
 
-Date: 2026-11-04 · Branch: `feature/m1-learning-loop`
+Date: 2026-11-04 · Branch: `feature/m1-learning-loop` (merged to `main`)
 Environment: Linux container (x86_64), Docker Engine 29.9.2 (cgroup v1, default seccomp),
 Python 3.12.3 (uv 0.11.32), Node 22.23.4, pnpm 10.28, Chromium (Playwright 1.63.0).
 **Not yet run on macOS / Docker Desktop / Safari.**
@@ -72,7 +72,8 @@ Numbers on Docker Desktop for Mac will differ (VM overhead) and must be re-measu
 
 * Safari/WebKit and macOS Docker Desktop: not available in this environment.
 * Live Claude API call: no key (stub-tested only).
-* GitHub Actions workflow (`.github/workflows/ci.yml`) is written but has **not run** (no remote).
+* GitHub Actions workflow (`.github/workflows/ci.yml`) is pushed; its first run was not observed
+  from this environment — all numbers above come from local runs.
 * No automated colour-contrast audit (tokens were chosen for contrast; manual review only).
 
 ## Reproduce
