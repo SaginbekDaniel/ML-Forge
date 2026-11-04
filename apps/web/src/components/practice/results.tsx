@@ -168,14 +168,16 @@ export function TestList({ results }: { results: TestResultView[] }) {
                 {r.passed ? "✓" : "✗"}
               </span>
               <span className="truncate">
-                {r.visibility === "hidden" ? `${t("results.hidden")} #${i + 1}` : r.description || r.test_id}
+                {r.visibility === "hidden" ? `${t("results.hidden")} #${i + 1}` : r.description || r.input?.trim() || r.test_id}
               </span>
             </span>
             <span className="flex items-center gap-2 text-xs text-subtle">
               <span>{tk(`status.${r.status}`, r.status)}</span>
               {r.error_type && r.status === "runtime_error" && <code className="font-mono">{r.error_type}</code>}
               {r.line ? <span>{t("results.line", { n: r.line })}</span> : null}
-              {r.duration_ms !== null && <span className="font-mono">{t("results.duration", { ms: Math.round(r.duration_ms) })}</span>}
+              {r.duration_ms !== null && (
+                <span className="font-mono">{t("results.duration", { ms: r.duration_ms < 1 ? "<1" : Math.round(r.duration_ms) })}</span>
+              )}
             </span>
           </div>
           {r.visibility === "public" && !r.passed && (

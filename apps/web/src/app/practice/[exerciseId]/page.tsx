@@ -340,7 +340,7 @@ function PracticeWorkspace({ exerciseId }: { exerciseId: string }) {
 
   const results = (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="space-y-2 border-b border-border px-3 py-2.5">
+      <div className={cx("space-y-2 border-b border-border px-3 py-2.5", !job && !submitError && "hidden")}>
         {runnerDown ? (
           <RunnerUnavailable reason={String(submitError?.details.reason ?? "")} />
         ) : submitError ? (

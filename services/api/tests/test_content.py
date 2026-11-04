@@ -62,3 +62,27 @@ def test_lessons_hide_nothing_they_should_not():
         assert 2 <= len(lesson.check_questions) <= 4
         assert len(lesson.examples) >= 2
         assert lesson.common_mistake.fix_md
+
+
+def test_changed_content_without_version_bump_is_rejected(tmp_path):
+    from mlforge_api.config import Settings
+    from mlforge_api.content.seed import seed_content
+    from mlforge_api.db import init_engine, session_scope
+    from mlforge_api.runtime import migrate
+
+    settings = Settings(
+        data_dir=tmp_path, database_url=f"sqlite:///{tmp_path / 'g.db'}", content_dir=CONTENT, anthropic_api_key=None
+    )
+    init_engine(settings.resolved_database_url)
+    migrate(settings)
+    with session_scope() as db:
+        rep = seed_content(db, load_curriculum(CONTENT), sandbox=None)
+    assert rep.pending  # no sandbox -> nothing activated, honestly reported
+
+    root = tmp_path / "c"
+    shutil.copytree(CONTENT, root)
+    path = root / "exercises" / "cond.sign.yaml"
+    path.write_text(path.read_text(encoding="utf-8").replace("Знак числа", "Знак числа (изменено)"), encoding="utf-8")
+    with session_scope() as db, pytest.raises(ContentError) as exc:
+        seed_content(db, load_curriculum(root), sandbox=None)
+    assert any("without a version bump" in e for e in exc.value.errors)
