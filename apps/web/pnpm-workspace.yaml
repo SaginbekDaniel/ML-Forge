@@ -1,0 +1,10 @@
+# pnpm settings. pnpm >= 10.5 reads them from this file; pnpm 11+ ignores the package.json "pnpm" field.
+# Both key names are kept so that pnpm 10 (CI) and pnpm 11/12 (macOS Homebrew) behave the same.
+onlyBuiltDependencies: # pnpm 10
+  - esbuild
+  - sharp
+  - unrs-resolver
+allowBuilds: # pnpm 11+
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
