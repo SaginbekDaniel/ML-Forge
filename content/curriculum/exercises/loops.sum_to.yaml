@@ -1,0 +1,57 @@
+id: loops.sum_to
+version: 1
+title: "Сумма от 1 до n"
+skill: python.loops
+type: write_code
+role: practice
+difficulty: 1
+estimated_minutes: 8
+position: 1
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `sum_to(n)`, которая возвращает сумму целых чисел от `1` до `n` **включительно**,
+  используя цикл `for` и `range`. Если `n <= 0`, верните `0`.
+
+  (Формулу Гаусса знать полезно, но здесь тренируем цикл и накопитель.)
+starter_code: |
+  def sum_to(n):
+      total = 0
+      for i in range(1, n):
+          total += i
+      return total
+public_examples:
+  - {input: "sum_to(5)", output: "15"}
+tests:
+  - {id: five, kind: call, visibility: public, call: "sum_to(5)", expected: "15", tags: [off_by_one]}
+  - {id: one, kind: call, visibility: public, call: "sum_to(1)", expected: "1", tags: [edge_case, off_by_one]}
+  - {id: zero, kind: call, visibility: hidden, call: "sum_to(0)", expected: "0", tags: [edge_case, zero]}
+  - {id: negative, kind: call, visibility: hidden, call: "sum_to(-3)", expected: "0", tags: [edge_case, negative]}
+  - {id: hundred, kind: call, visibility: hidden, call: "sum_to(100)", expected: "5050", tags: [off_by_one]}
+hints:
+  - "Сравните, какие числа реально перебирает `range(1, n)`, с тем, что требует условие."
+  - "`range(a, b)` не включает `b`. Для отрицательного `n` такой `range` просто пустой — накопитель останется `0`."
+  - "Схема: `total = 0` → `for i in range(1, n + 1): total += i` → `return total`."
+solution: |
+  def sum_to(n):
+      total = 0
+      for i in range(1, n + 1):
+          total += i
+      return total
+wrong_solutions:
+  - name: off_by_one
+    code: |
+      def sum_to(n):
+          total = 0
+          for i in range(1, n):
+              total += i
+          return total
+    why: "range не включает n."
+  - name: starts_at_zero_wrong_stop
+    code: |
+      def sum_to(n):
+          total = 0
+          for i in range(n):
+              total += i
+          return total
+    why: "Перебирает 0..n-1."
+tags: [for, range, accumulator, off_by_one]

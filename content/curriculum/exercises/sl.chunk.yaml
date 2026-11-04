@@ -1,0 +1,56 @@
+id: sl.chunk
+version: 1
+title: "Разбить на части"
+skill: python.strings_lists
+type: write_code
+role: assessment
+difficulty: 3
+estimated_minutes: 12
+position: 11
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `chunk(items, size)`, которая делит список на последовательные части длиной `size`.
+  Последняя часть может быть короче. Исходный список не меняется.
+
+  * `chunk([1, 2, 3, 4, 5], 2)` → `[[1, 2], [3, 4], [5]]`
+  * `chunk([], 3)` → `[]`
+  * если `size <= 0` — выбросите `ValueError`.
+
+  (Такое разбиение на батчи (batching) постоянно встречается в ML.)
+starter_code: |
+  def chunk(items, size):
+      pass
+public_examples:
+  - {input: "chunk([1, 2, 3, 4, 5], 2)", output: "[[1, 2], [3, 4], [5]]"}
+tests:
+  - {id: basic, kind: call, visibility: public, call: "chunk([1, 2, 3, 4, 5], 2)", expected: "[[1, 2], [3, 4], [5]]"}
+  - {id: empty, kind: call, visibility: public, call: "chunk([], 3)", expected: "[]", tags: [edge_case, empty]}
+  - {id: exact, kind: call, visibility: hidden, call: "chunk([1, 2, 3, 4], 2)", expected: "[[1, 2], [3, 4]]", tags: [edge_case, off_by_one]}
+  - {id: big_size, kind: call, visibility: hidden, call: "chunk(['a', 'b'], 10)", expected: "[['a', 'b']]", tags: [edge_case]}
+  - {id: size_one, kind: call, visibility: hidden, call: "chunk([7, 8, 9], 1)", expected: "[[7], [8], [9]]"}
+  - {id: zero_size, kind: call, visibility: hidden, call: "chunk([1, 2], 0)", raises: ValueError, tags: [edge_case, validation]}
+hints:
+  - "Каждая часть — это срез исходного списка. С каких индексов они начинаются?"
+  - "`range(0, len(items), size)` даёт индексы начала частей: 0, size, 2·size… Срез за границей списка не вызывает ошибку."
+  - "Схема: проверка `size <= 0` → `return [items[i:i + size] for i in range(0, len(items), size)]`."
+solution: |
+  def chunk(items, size):
+      if size <= 0:
+          raise ValueError("size must be positive")
+      return [items[i:i + size] for i in range(0, len(items), size)]
+wrong_solutions:
+  - name: drops_tail
+    code: |
+      def chunk(items, size):
+          if size <= 0:
+              raise ValueError("size must be positive")
+          return [items[i:i + size] for i in range(0, len(items) - size + 1, size)]
+    why: "Теряет неполную последнюю часть."
+  - name: no_validation
+    code: |
+      def chunk(items, size):
+          if size == 0:
+              return []
+          return [items[i:i + size] for i in range(0, len(items), size)]
+    why: "Нет ValueError."
+tags: [slicing, range_step, batching]

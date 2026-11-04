@@ -1,0 +1,91 @@
+id: lesson.loops
+version: 1
+skill: python.loops
+title: "Циклы: for, while и range"
+estimated_minutes: 25
+summary: "Повторение действий, накопление результата и самая частая ошибка — ошибка на единицу."
+explanation_md: |
+  Цикл повторяет блок кода.
+
+  * `for x in collection:` — по очереди берёт каждый элемент коллекции.
+  * `range(start, stop, step)` — последовательность чисел от `start` **до** `stop`, **не включая** `stop`.
+    `range(5)` — это `0, 1, 2, 3, 4`; `range(1, 5)` — это `1, 2, 3, 4`.
+  * `while condition:` — повторяет, пока условие истинно. Важно, чтобы условие когда-нибудь стало ложным,
+    иначе цикл бесконечный (ML Forge остановит такой код по тайм-ауту).
+  * **Накопитель** (accumulator): переменная, которую создают **до** цикла и обновляют внутри:
+    `total = 0` → `total += x`.
+  * `break` прерывает цикл, `continue` переходит к следующей итерации.
+analogy_md: |
+  `range(1, 5)` — как этажи в лифте «с 1-го до 5-го, но 5-й не включая»: вы проедете 1, 2, 3, 4.
+  Если нужен и 5-й этаж, кнопку надо нажать на один дальше: `range(1, 6)`.
+definition_md: |
+  **Итерация** (iteration) — однократное выполнение тела цикла.
+  **Ошибка на единицу** (off-by-one error) — цикл выполняется на одну итерацию больше или меньше нужного,
+  обычно из-за неверной границы `range` или условия `<` вместо `<=`.
+examples:
+  - title: "Сумма с накопителем"
+    code: |
+      total = 0
+      for n in range(1, 6):
+          total += n
+      print(total)
+    output: "15"
+    note_md: "`range(1, 6)` даёт 1..5, сумма 15."
+  - title: "while: сколько раз можно поделить пополам"
+    code: |
+      n = 40
+      steps = 0
+      while n > 1:
+          n //= 2
+          steps += 1
+      print(steps, n)
+    output: "5 1"
+    note_md: "40 → 20 → 10 → 5 → 2 → 1: пять шагов, условие `n > 1` становится ложным."
+common_mistake:
+  code: |
+    n = 5
+    total = 0
+    for i in range(1, n):
+        total += i
+    print(total)
+  output: "10"
+  problem_md: "Хотели сумму 1..5 = 15, получили 10: `range(1, n)` не включает `n`."
+  fix_md: "Чтобы включить `n`, пишите `range(1, n + 1)`."
+check_questions:
+  - id: q1
+    prompt_md: "Что напечатает код?"
+    code: |
+      print(list(range(2, 10, 3)))
+    answer: "[2, 5, 8]"
+    explanation_md: "Старт 2, шаг 3: 2, 5, 8; 11 уже за границей `stop=10`."
+  - id: q2
+    prompt_md: "Что напечатает код?"
+    code: |
+      count = 0
+      for ch in "banana":
+          if ch == "a":
+              count += 1
+      print(count)
+    answer: "3"
+    explanation_md: "`for` обходит строку посимвольно; буква `a` встречается 3 раза."
+  - id: q3
+    prompt_md: "Что напечатает код?"
+    code: |
+      for i in range(5):
+          if i == 3:
+              break
+          print(i, end=" ")
+    answer: "0 1 2"
+    explanation_md: "На `i == 3` цикл прерывается до печати; завершающие пробелы при проверке не учитываются."
+recap_md: |
+  * `range(a, b)` не включает `b`.
+  * Накопитель создаётся до цикла.
+  * У `while` должно быть условие выхода.
+terms:
+  - {en: "iteration", ru: "итерация"}
+  - {en: "accumulator", ru: "накопитель"}
+  - {en: "off-by-one error", ru: "ошибка на единицу"}
+  - {en: "infinite loop", ru: "бесконечный цикл"}
+resources:
+  - {title: "Python Tutorial — for Statements", url: "https://docs.python.org/3/tutorial/controlflow.html#for-statements"}
+  - {title: "The range() Function", url: "https://docs.python.org/3/tutorial/controlflow.html#the-range-function"}

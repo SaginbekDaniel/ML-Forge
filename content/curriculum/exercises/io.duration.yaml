@@ -1,0 +1,47 @@
+id: io.duration
+version: 1
+title: "Часы и минуты"
+skill: python.io_types
+type: write_code
+role: assessment
+difficulty: 2
+estimated_minutes: 10
+position: 10
+execution_mode: function
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `format_duration(minutes)`, которая получает неотрицательное целое число минут
+  и возвращает строку вида `"<часы> ч <минуты> мин"`, где минуты **всегда двузначные**.
+
+  Например, `format_duration(125)` возвращает `"2 ч 05 мин"`.
+starter_code: |
+  def format_duration(minutes):
+      pass
+public_examples:
+  - {input: "format_duration(125)", output: "'2 ч 05 мин'"}
+tests:
+  - {id: basic, kind: call, visibility: public, call: "format_duration(125)", expected: "'2 ч 05 мин'"}
+  - {id: zero, kind: call, visibility: public, call: "format_duration(0)", expected: "'0 ч 00 мин'", tags: [edge_case, zero]}
+  - {id: under_hour, kind: call, visibility: hidden, call: "format_duration(59)", expected: "'0 ч 59 мин'", tags: [edge_case]}
+  - {id: exact_hour, kind: call, visibility: hidden, call: "format_duration(60)", expected: "'1 ч 00 мин'", tags: [edge_case, boundary]}
+  - {id: long, kind: call, visibility: hidden, call: "format_duration(1505)", expected: "'25 ч 05 мин'"}
+hints:
+  - "Разделите задачу: сколько полных часов и сколько минут остаётся."
+  - "`//` даёт целую часть деления, `%` — остаток. В f-строке формат `:02d` дополняет число нулём до двух цифр."
+  - "Схема: `h = minutes // 60`, `m = minutes % 60`, вернуть `f\"{h} ч {m:02d} мин\"`."
+solution: |
+  def format_duration(minutes):
+      hours, mins = divmod(minutes, 60)
+      return f"{hours} ч {mins:02d} мин"
+wrong_solutions:
+  - name: no_padding
+    code: |
+      def format_duration(minutes):
+          return f"{minutes // 60} ч {minutes % 60} мин"
+    why: "Минуты не дополняются нулём."
+  - name: float_hours
+    code: |
+      def format_duration(minutes):
+          return f"{minutes / 60} ч {minutes % 60:02d} мин"
+    why: "/ даёт дробные часы."
+tags: [int, divmod, f-string]

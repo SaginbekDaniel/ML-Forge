@@ -1,0 +1,65 @@
+id: loops.collatz
+version: 1
+title: "Шаги Коллатца"
+skill: python.loops
+type: write_code
+role: assessment
+difficulty: 3
+estimated_minutes: 12
+position: 11
+review_status: reviewed
+prompt_md: |
+  Гипотеза Коллатца: возьмите целое `n ≥ 1`. Если оно чётное — разделите на 2, если нечётное — замените на `3n + 1`.
+  Повторяйте, пока не получите `1`.
+
+  Напишите функцию `collatz_steps(n)`, которая возвращает **количество шагов** до `1`.
+
+  * `collatz_steps(1)` → `0`
+  * для `n < 1` выбросите `ValueError`.
+starter_code: |
+  def collatz_steps(n):
+      pass
+public_examples:
+  - {input: "collatz_steps(6)", output: "8"}
+tests:
+  - {id: six, kind: call, visibility: public, call: "collatz_steps(6)", expected: "8"}
+  - {id: one, kind: call, visibility: public, call: "collatz_steps(1)", expected: "0", tags: [edge_case]}
+  - {id: two, kind: call, visibility: hidden, call: "collatz_steps(2)", expected: "1", tags: [edge_case]}
+  - {id: twentyseven, kind: call, visibility: hidden, call: "collatz_steps(27)", expected: "111"}
+  - {id: power_two, kind: call, visibility: hidden, call: "collatz_steps(1024)", expected: "10"}
+  - {id: zero, kind: call, visibility: hidden, call: "collatz_steps(0)", raises: ValueError, tags: [edge_case, validation]}
+hints:
+  - "Число шагов заранее неизвестно — значит, нужен `while`, а не `for`."
+  - "Условие цикла — `n != 1`; внутри: ветвление по чётности и увеличение счётчика. Деление пополам — через `//`, чтобы не получить `float`."
+  - "Схема: проверка `n < 1` → `steps = 0` → `while n != 1: n = n // 2 if n % 2 == 0 else 3 * n + 1; steps += 1`."
+solution: |
+  def collatz_steps(n):
+      if n < 1:
+          raise ValueError("n must be >= 1")
+      steps = 0
+      while n != 1:
+          n = n // 2 if n % 2 == 0 else 3 * n + 1
+          steps += 1
+      return steps
+wrong_solutions:
+  - name: counts_start
+    code: |
+      def collatz_steps(n):
+          if n < 1:
+              raise ValueError("n must be >= 1")
+          steps = 1
+          while n != 1:
+              n = n // 2 if n % 2 == 0 else 3 * n + 1
+              steps += 1
+          return steps
+    why: "Счётчик начинается с 1."
+  - name: no_validation
+    code: |
+      def collatz_steps(n):
+          steps = 0
+          while n > 1:
+              n = n // 2 if n % 2 == 0 else 3 * n + 1
+              steps += 1
+          return steps
+    why: "Для 0 возвращает 0 вместо ошибки."
+tags: [while, loop_condition]

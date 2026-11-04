@@ -1,0 +1,49 @@
+id: io.greeting
+version: 1
+title: "Приветствие"
+skill: python.io_types
+type: write_code
+role: practice
+difficulty: 1
+estimated_minutes: 5
+position: 1
+execution_mode: script
+review_status: reviewed
+prompt_md: |
+  Программа читает **одну строку** — имя пользователя — и печатает приветствие в формате:
+
+  ```
+  Привет, <имя>!
+  ```
+
+  Пробелы по краям имени нужно убрать (`strip()`), пробелы внутри имени — сохранить.
+  Подсказку для ввода (`input("...")`) печатать можно — тесты проверяют только вывод `print`.
+starter_code: |
+  name = input()
+  # напечатайте приветствие
+public_examples:
+  - {input: "Аня", output: "Привет, Аня!"}
+tests:
+  - {id: basic, kind: stdout, visibility: public, stdin: "Аня\n", expected_stdout: "Привет, Аня!", description: "простое имя"}
+  - {id: spaces_around, kind: stdout, visibility: public, stdin: "  Олег  \n", expected_stdout: "Привет, Олег!", description: "пробелы по краям", tags: [edge_case, strip]}
+  - {id: two_words, kind: stdout, visibility: hidden, stdin: "Анна Мария\n", expected_stdout: "Привет, Анна Мария!", tags: [inner_spaces]}
+  - {id: latin, kind: stdout, visibility: hidden, stdin: "Bob\n", expected_stdout: "Привет, Bob!"}
+hints:
+  - "Нужно три шага: прочитать строку, очистить её от лишних пробелов по краям, напечатать результат."
+  - "Метод `.strip()` возвращает новую строку без пробелов по краям. Склеить текст удобно f-строкой."
+  - "Схема: `clean = name.strip()` → `print(f\"Привет, {...}!\")`."
+solution: |
+  name = input()
+  print(f"Привет, {name.strip()}!")
+wrong_solutions:
+  - name: no_strip
+    code: |
+      name = input()
+      print(f"Привет, {name}!")
+    why: "Не убраны пробелы по краям."
+  - name: wrong_punctuation
+    code: |
+      name = input().strip()
+      print("Привет", name, "!")
+    why: "print с несколькими аргументами вставляет лишние пробелы."
+tags: [input, print, strip, f-string]

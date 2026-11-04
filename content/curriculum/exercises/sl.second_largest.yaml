@@ -1,0 +1,69 @@
+id: sl.second_largest
+version: 1
+title: "Второе по величине"
+skill: python.strings_lists
+type: debug
+role: practice
+difficulty: 3
+estimated_minutes: 12
+position: 3
+review_status: reviewed
+prompt_md: |
+  Функция `second_largest(nums)` должна возвращать **второе по величине различное** значение в списке.
+  Если различных значений меньше двух, функция возвращает `None`. Исходный список **менять нельзя**.
+
+  * `second_largest([4, 1, 9, 7])` → `7`
+  * `second_largest([5, 5, 3])` → `3`
+  * `second_largest([2, 2])` → `None`
+
+  Текущая реализация ошибается. Найдите первопричину, исправьте и объясните.
+starter_code: |
+  def second_largest(nums):
+      nums.sort()
+      return nums[-2]
+explain_prompt: "Какие две разные ошибки были в исходном коде?"
+public_examples:
+  - {input: "second_largest([4, 1, 9, 7])", output: "7"}
+tests:
+  - {id: basic, kind: call, visibility: public, call: "second_largest([4, 1, 9, 7])", expected: "7"}
+  - {id: duplicates_max, kind: call, visibility: public, call: "second_largest([5, 5, 3])", expected: "3", tags: [edge_case, duplicates]}
+  - {id: all_same, kind: call, visibility: hidden, call: "second_largest([2, 2])", expected: "None", tags: [edge_case, duplicates]}
+  - {id: single, kind: call, visibility: hidden, call: "second_largest([10])", expected: "None", tags: [edge_case]}
+  - {id: empty, kind: call, visibility: hidden, call: "second_largest([])", expected: "None", tags: [edge_case, empty]}
+  - {id: negatives, kind: call, visibility: hidden, call: "second_largest([-3, -1, -2])", expected: "-2", tags: [negative]}
+  - {id: no_mutation, kind: call, visibility: hidden, call: "(lambda xs: (second_largest(xs), xs))([3, 1, 2])", expected: "(2, [3, 1, 2])", tags: [edge_case, mutation]}
+hints:
+  - "Что вернёт исходный код для `[5, 5, 3]`? И что произойдёт со списком, который передали в функцию?"
+  - "Уберите дубликаты (`set`), а для сортировки используйте `sorted(...)`, который возвращает новый список."
+  - "Схема: `unique = sorted(set(nums))` → `if len(unique) < 2: return None` → `return unique[-2]`."
+solution: |
+  def second_largest(nums):
+      unique = sorted(set(nums))
+      if len(unique) < 2:
+          return None
+      return unique[-2]
+wrong_solutions:
+  - name: original_bug
+    code: |
+      def second_largest(nums):
+          nums.sort()
+          return nums[-2]
+    why: "Дубликаты и мутация входного списка."
+  - name: mutates_input
+    code: |
+      def second_largest(nums):
+          nums.sort()
+          unique = sorted(set(nums))
+          if len(unique) < 2:
+              return None
+          return unique[-2]
+    why: "Меняет исходный список."
+  - name: ignores_duplicates
+    code: |
+      def second_largest(nums):
+          s = sorted(nums)
+          if len(s) < 2:
+              return None
+          return s[-2]
+    why: "Не учитывает повторы максимума."
+tags: [debug, sorted, set, mutation]

@@ -1,0 +1,43 @@
+[project]
+name = "ml-forge"
+version = "0.1.0"
+description = "ML Forge — local learning platform for ML engineering (workspace root)"
+requires-python = ">=3.12"
+dependencies = ["mlforge-api", "mlforge-runner"]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.3",
+  "ruff>=0.8",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["services/api", "services/runner"]
+
+[tool.uv.sources]
+mlforge-api = { workspace = true }
+mlforge-runner = { workspace = true }
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["apps/web", "**/migrations/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "BLE"]
+ignore = ["S101", "S603", "S607", "S311", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"services/runner/src/mlforge_runner/sandbox_files/*" = ["S102", "S307", "S108", "S110"]
+"services/runner/src/mlforge_runner/sandbox.py" = ["S108"]
+"**/tests/**" = ["S", "B"]
+"content/**" = ["ALL"]
+
+[tool.pytest.ini_options]
+testpaths = ["services/api/tests", "services/runner/tests"]
+markers = [
+  "docker: needs a running Docker daemon and the built runner image",
+]

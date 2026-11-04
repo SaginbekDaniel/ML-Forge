@@ -1,0 +1,53 @@
+id: io.celsius
+version: 1
+title: "Перевод температуры"
+skill: python.io_types
+type: write_code
+role: practice
+difficulty: 2
+estimated_minutes: 8
+position: 3
+execution_mode: function
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `celsius_to_fahrenheit(c)`, которая переводит градусы Цельсия в Фаренгейты
+  по формуле **F = C × 9 / 5 + 32** и **возвращает** (`return`) результат как `float`.
+
+  Функция ничего не печатает — тесты вызывают её напрямую, например `celsius_to_fahrenheit(100)`.
+starter_code: |
+  def celsius_to_fahrenheit(c):
+      # верните результат вычисления
+      pass
+public_examples:
+  - {input: "celsius_to_fahrenheit(100)", output: "212.0"}
+  - {input: "celsius_to_fahrenheit(0)", output: "32.0"}
+tests:
+  - {id: boiling, kind: call, visibility: public, call: "celsius_to_fahrenheit(100)", expected: "212.0", compare: float}
+  - {id: freezing, kind: call, visibility: public, call: "celsius_to_fahrenheit(0)", expected: "32.0", compare: float, tags: [edge_case, zero]}
+  - {id: minus40, kind: call, visibility: hidden, call: "celsius_to_fahrenheit(-40)", expected: "-40.0", compare: float, tags: [edge_case, negative]}
+  - {id: fractional, kind: call, visibility: hidden, call: "celsius_to_fahrenheit(37.5)", expected: "99.5", compare: float, tags: [float_division]}
+  - {id: small, kind: call, visibility: hidden, call: "celsius_to_fahrenheit(-17.5)", expected: "0.5", compare: float}
+hints:
+  - "Нужно просто перенести формулу в код и вернуть результат через `return`, а не `print`."
+  - "Оператор `/` всегда даёт `float`, а `//` — целочисленное деление, которое потеряет дробную часть."
+  - "Схема: `return c * 9 / 5 + 32`. Проверьте приоритет операций: умножение и деление выполняются раньше сложения."
+solution: |
+  def celsius_to_fahrenheit(c):
+      return c * 9 / 5 + 32
+wrong_solutions:
+  - name: integer_division
+    code: |
+      def celsius_to_fahrenheit(c):
+          return c * 9 // 5 + 32
+    why: "// теряет дробную часть."
+  - name: wrong_precedence
+    code: |
+      def celsius_to_fahrenheit(c):
+          return (c + 32) * 9 / 5
+    why: "Нарушен порядок операций формулы."
+  - name: prints_instead_of_return
+    code: |
+      def celsius_to_fahrenheit(c):
+          print(c * 9 / 5 + 32)
+    why: "print вместо return: функция возвращает None."
+tags: [float, arithmetic, return]

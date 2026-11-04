@@ -1,0 +1,65 @@
+# Starting diagnostic. Self-assessment is user_self_report (never unlocks anything);
+# predict-output answers are checked exactly and verified by running the code in the sandbox.
+version: 1
+practical_exercise: diag.count_even
+questions:
+  - id: self_io
+    type: self_assessment
+    skill: python.io_types
+    prompt_md: "Насколько уверенно вы используете `print()`, `input()` и преобразование `int()`/`float()`/`str()`?"
+    options: [never_seen, seen_before, confident]
+  - id: predict_io
+    type: predict_output
+    skill: python.io_types
+    prompt_md: "Что напечатает программа?"
+    code: |
+      a = "3"
+      b = 4
+      print(a * 2, int(a) + b)
+    answer: "33 7"
+  - id: self_cond
+    type: self_assessment
+    skill: python.conditionals
+    prompt_md: "Насколько уверенно вы пишете `if / elif / else` и комбинируете условия через `and` / `or`?"
+    options: [never_seen, seen_before, confident]
+  - id: predict_cond
+    type: predict_output
+    skill: python.conditionals
+    prompt_md: "Что напечатает программа?"
+    code: |
+      x = 15
+      if x > 10:
+          print("big")
+      elif x > 5:
+          print("medium")
+      else:
+          print("small")
+    answer: "big"
+  - id: self_loops
+    type: self_assessment
+    skill: python.loops
+    prompt_md: "Насколько уверенно вы используете `for`, `while` и `range()`?"
+    options: [never_seen, seen_before, confident]
+  - id: predict_loops
+    type: predict_output
+    skill: python.loops
+    prompt_md: "Что напечатает программа?"
+    code: |
+      total = 0
+      for i in range(1, 5):
+          total += i
+      print(total)
+    answer: "10"
+  - id: self_strings
+    type: self_assessment
+    skill: python.strings_lists
+    prompt_md: "Насколько уверенно вы работаете со срезами строк и методами списков?"
+    options: [never_seen, seen_before, confident]
+  - id: predict_strings
+    type: predict_output
+    skill: python.strings_lists
+    prompt_md: "Что напечатает программа?"
+    code: |
+      word = "python"
+      print(word[1:4], word[-1])
+    answer: "yth n"

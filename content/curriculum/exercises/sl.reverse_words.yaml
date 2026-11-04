@@ -1,0 +1,46 @@
+id: sl.reverse_words
+version: 1
+title: "Слова в обратном порядке"
+skill: python.strings_lists
+type: write_code
+role: practice
+difficulty: 2
+estimated_minutes: 8
+position: 2
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `reverse_words(sentence)`, которая возвращает строку, где **слова** идут в обратном порядке,
+  разделённые ровно одним пробелом. Лишние пробелы (в начале, в конце и между словами) убираются.
+
+  `reverse_words("  data   science rocks ")` → `"rocks science data"`
+starter_code: |
+  def reverse_words(sentence):
+      return sentence[::-1]
+public_examples:
+  - {input: "reverse_words('hello world')", output: "'world hello'"}
+tests:
+  - {id: two, kind: call, visibility: public, call: "reverse_words('hello world')", expected: "'world hello'"}
+  - {id: spaces, kind: call, visibility: public, call: "reverse_words('  data   science rocks ')", expected: "'rocks science data'", tags: [edge_case, whitespace]}
+  - {id: single, kind: call, visibility: hidden, call: "reverse_words('python')", expected: "'python'", tags: [edge_case]}
+  - {id: empty, kind: call, visibility: hidden, call: "reverse_words('')", expected: "''", tags: [edge_case, empty]}
+  - {id: only_spaces, kind: call, visibility: hidden, call: "reverse_words('   ')", expected: "''", tags: [edge_case, whitespace]}
+  - {id: punct, kind: call, visibility: hidden, call: "reverse_words('one, two, three!')", expected: "'three! two, one,'"}
+hints:
+  - "`sentence[::-1]` переворачивает символы, а нужно переворачивать слова. Сначала получите список слов."
+  - "`split()` без аргументов делит по любым пробелам и сам выбрасывает пустые части; `' '.join(...)` склеивает обратно."
+  - "Схема: `words = sentence.split()` → `words.reverse()` или `words[::-1]` → `return ' '.join(...)`."
+solution: |
+  def reverse_words(sentence):
+      return " ".join(sentence.split()[::-1])
+wrong_solutions:
+  - name: reverse_chars
+    code: |
+      def reverse_words(sentence):
+          return sentence[::-1]
+    why: "Переворачивает символы."
+  - name: split_on_space
+    code: |
+      def reverse_words(sentence):
+          return " ".join(sentence.split(" ")[::-1])
+    why: "split(' ') оставляет пустые строки — лишние пробелы."
+tags: [split, join, slicing]

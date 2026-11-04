@@ -1,0 +1,24 @@
+[project]
+name = "mlforge-api"
+version = "0.1.0"
+description = "ML Forge FastAPI backend"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.32",
+  "sqlalchemy>=2.0.36,<2.1",
+  "alembic>=1.14",
+  "pydantic>=2.9,<3",
+  "pydantic-settings>=2.6",
+  "pyyaml>=6.0.2",
+  "httpx>=0.27",
+  "anthropic>=0.70",
+  "mlforge-runner",
+]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mlforge_api"]

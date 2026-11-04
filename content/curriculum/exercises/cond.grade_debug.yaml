@@ -1,0 +1,99 @@
+id: cond.grade_debug
+version: 1
+title: "Почини оценку"
+skill: python.conditionals
+type: debug
+role: practice
+difficulty: 2
+estimated_minutes: 10
+position: 3
+review_status: reviewed
+prompt_md: |
+  Функция `grade(score)` должна переводить балл от 0 до 100 в оценку:
+
+  | балл | оценка |
+  |---|---|
+  | 90–100 | `"A"` |
+  | 75–89 | `"B"` |
+  | 60–74 | `"C"` |
+  | 0–59 | `"F"` |
+
+  Если балл вне диапазона 0–100, функция должна выбросить `ValueError`.
+
+  Код ниже **сломан**. Найдите причину (root cause), исправьте и коротко объясните, в чём была ошибка.
+starter_code: |
+  def grade(score):
+      if score >= 60:
+          return "C"
+      elif score >= 75:
+          return "B"
+      elif score >= 90:
+          return "A"
+      else:
+          return "F"
+explain_prompt: "В чём была первопричина ошибки и почему исправление её устраняет?"
+public_examples:
+  - {input: "grade(95)", output: "'A'"}
+  - {input: "grade(42)", output: "'F'"}
+tests:
+  - {id: a, kind: call, visibility: public, call: "grade(95)", expected: "'A'"}
+  - {id: f, kind: call, visibility: public, call: "grade(42)", expected: "'F'"}
+  - {id: b, kind: call, visibility: hidden, call: "grade(80)", expected: "'B'"}
+  - {id: boundary90, kind: call, visibility: hidden, call: "grade(90)", expected: "'A'", tags: [edge_case, boundary]}
+  - {id: boundary75, kind: call, visibility: hidden, call: "grade(75)", expected: "'B'", tags: [edge_case, boundary]}
+  - {id: boundary59, kind: call, visibility: hidden, call: "grade(59)", expected: "'F'", tags: [edge_case, boundary]}
+  - {id: too_high, kind: call, visibility: public, call: "grade(101)", raises: ValueError, tags: [edge_case, validation]}
+  - {id: negative, kind: call, visibility: hidden, call: "grade(-1)", raises: ValueError, tags: [edge_case, validation]}
+hints:
+  - "Какая ветка сработает для 95? Помните: выполняется первая истинная ветка."
+  - "Расположите проверки от самого высокого порога к самому низкому и добавьте проверку диапазона в самом начале."
+  - "Схема: `if not 0 <= score <= 100: raise ValueError(...)` → `if score >= 90: ...` → `elif score >= 75: ...` → ..."
+solution: |
+  def grade(score):
+      if not 0 <= score <= 100:
+          raise ValueError("score must be between 0 and 100")
+      if score >= 90:
+          return "A"
+      elif score >= 75:
+          return "B"
+      elif score >= 60:
+          return "C"
+      return "F"
+wrong_solutions:
+  - name: original_bug
+    code: |
+      def grade(score):
+          if score >= 60:
+              return "C"
+          elif score >= 75:
+              return "B"
+          elif score >= 90:
+              return "A"
+          else:
+              return "F"
+    why: "Широкое условие стоит первым."
+  - name: no_validation
+    code: |
+      def grade(score):
+          if score >= 90:
+              return "A"
+          elif score >= 75:
+              return "B"
+          elif score >= 60:
+              return "C"
+          return "F"
+    why: "Нет проверки диапазона."
+  - name: strict_boundaries
+    code: |
+      def grade(score):
+          if not 0 <= score <= 100:
+              raise ValueError("bad")
+          if score > 90:
+              return "A"
+          elif score > 75:
+              return "B"
+          elif score > 60:
+              return "C"
+          return "F"
+    why: "Границы > вместо >=."
+tags: [debug, elif_order, boundaries, raise]

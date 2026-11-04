@@ -1,0 +1,57 @@
+id: sl.count_vowels
+version: 1
+title: "Подсчёт гласных"
+skill: python.strings_lists
+type: write_code
+role: practice
+difficulty: 1
+estimated_minutes: 8
+position: 1
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `count_vowels(text)`, которая возвращает количество гласных букв в строке
+  **без учёта регистра**. Гласными считаются английские `aeiou` и русские `аеёиоуыэюя`.
+starter_code: |
+  VOWELS = "aeiouаеёиоуыэюя"
+
+  def count_vowels(text):
+      count = 0
+      for ch in text:
+          if ch in VOWELS:
+              count += 1
+      return count
+public_examples:
+  - {input: "count_vowels('Machine Learning')", output: "6"}
+tests:
+  - {id: english, kind: call, visibility: public, call: "count_vowels('Machine Learning')", expected: "6", tags: [case]}
+  - {id: russian, kind: call, visibility: public, call: "count_vowels('Привет, мир')", expected: "3"}
+  - {id: empty, kind: call, visibility: hidden, call: "count_vowels('')", expected: "0", tags: [edge_case, empty]}
+  - {id: upper, kind: call, visibility: hidden, call: "count_vowels('AEIOU ЁЖИК')", expected: "7", tags: [edge_case, case]}
+  - {id: no_vowels, kind: call, visibility: hidden, call: "count_vowels('rhythm 123')", expected: "0", tags: [edge_case]}
+hints:
+  - "Код считает только строчные буквы. Как сделать проверку независимой от регистра?"
+  - "Приведите символ (или весь текст) к нижнему регистру методом `.lower()` перед проверкой `in`."
+  - "Схема: `for ch in text.lower(): if ch in VOWELS: count += 1`."
+solution: |
+  VOWELS = "aeiouаеёиоуыэюя"
+
+  def count_vowels(text):
+      return sum(1 for ch in text.lower() if ch in VOWELS)
+wrong_solutions:
+  - name: case_sensitive
+    code: |
+      VOWELS = "aeiouаеёиоуыэюя"
+
+      def count_vowels(text):
+          count = 0
+          for ch in text:
+              if ch in VOWELS:
+                  count += 1
+          return count
+    why: "Заглавные гласные не считаются."
+  - name: english_only
+    code: |
+      def count_vowels(text):
+          return sum(1 for ch in text.lower() if ch in "aeiou")
+    why: "Игнорирует русские гласные."
+tags: [strings, lower, membership]

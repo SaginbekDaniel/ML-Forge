@@ -1,0 +1,68 @@
+id: cond.triangle
+version: 1
+title: "Тип треугольника"
+skill: python.conditionals
+type: write_code
+role: assessment
+difficulty: 3
+estimated_minutes: 12
+position: 10
+review_status: reviewed
+prompt_md: |
+  Функция `triangle_type(a, b, c)` получает длины трёх сторон и возвращает:
+
+  * `"invalid"` — если треугольник не существует (какая-то сторона ≤ 0 или сумма двух сторон **не больше** третьей);
+  * `"equilateral"` — все стороны равны;
+  * `"isosceles"` — ровно две стороны равны;
+  * `"scalene"` — все стороны разные.
+starter_code: |
+  def triangle_type(a, b, c):
+      pass
+public_examples:
+  - {input: "triangle_type(3, 3, 3)", output: "'equilateral'"}
+  - {input: "triangle_type(1, 2, 10)", output: "'invalid'"}
+tests:
+  - {id: equilateral, kind: call, visibility: public, call: "triangle_type(3, 3, 3)", expected: "'equilateral'"}
+  - {id: invalid_long, kind: call, visibility: public, call: "triangle_type(1, 2, 10)", expected: "'invalid'"}
+  - {id: isosceles, kind: call, visibility: hidden, call: "triangle_type(5, 5, 8)", expected: "'isosceles'"}
+  - {id: isosceles_order, kind: call, visibility: hidden, call: "triangle_type(8, 5, 5)", expected: "'isosceles'", tags: [argument_order]}
+  - {id: scalene, kind: call, visibility: hidden, call: "triangle_type(3, 4, 5)", expected: "'scalene'"}
+  - {id: degenerate, kind: call, visibility: hidden, call: "triangle_type(1, 2, 3)", expected: "'invalid'", tags: [edge_case, boundary]}
+  - {id: zero_side, kind: call, visibility: hidden, call: "triangle_type(0, 0, 0)", expected: "'invalid'", tags: [edge_case, zero]}
+hints:
+  - "Сначала исключите несуществующие треугольники, только потом классифицируйте."
+  - "Проверка существования: все стороны > 0 и `a + b > c`, `a + c > b`, `b + c > a`."
+  - "Схема: `if invalid: return \"invalid\"` → `if a == b == c: ...` → `if a == b or b == c or a == c: ...`."
+solution: |
+  def triangle_type(a, b, c):
+      if min(a, b, c) <= 0 or a + b <= c or a + c <= b or b + c <= a:
+          return "invalid"
+      if a == b == c:
+          return "equilateral"
+      if a == b or b == c or a == c:
+          return "isosceles"
+      return "scalene"
+wrong_solutions:
+  - name: strict_inequality_missing
+    code: |
+      def triangle_type(a, b, c):
+          if a + b < c or a + c < b or b + c < a:
+              return "invalid"
+          if a == b == c:
+              return "equilateral"
+          if a == b or b == c or a == c:
+              return "isosceles"
+          return "scalene"
+    why: "Вырожденный треугольник и нулевые стороны считаются допустимыми."
+  - name: partial_isosceles
+    code: |
+      def triangle_type(a, b, c):
+          if min(a, b, c) <= 0 or a + b <= c or a + c <= b or b + c <= a:
+              return "invalid"
+          if a == b == c:
+              return "equilateral"
+          if a == b:
+              return "isosceles"
+          return "scalene"
+    why: "Проверяется только одна пара сторон."
+tags: [boolean_logic, validation]

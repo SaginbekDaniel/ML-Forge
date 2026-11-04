@@ -1,0 +1,82 @@
+id: loops.fizzbuzz
+version: 1
+title: "FizzBuzz"
+skill: python.loops
+type: write_code
+role: practice
+difficulty: 2
+estimated_minutes: 10
+position: 3
+review_status: reviewed
+extra_skills: [python.conditionals]
+prompt_md: |
+  Напишите функцию `fizzbuzz(n)`, которая возвращает **список строк** для чисел от `1` до `n` включительно:
+
+  * `"FizzBuzz"` — если число делится и на 3, и на 5;
+  * `"Fizz"` — если делится на 3;
+  * `"Buzz"` — если делится на 5;
+  * иначе — само число в виде строки, например `"7"`.
+
+  Для `n <= 0` верните пустой список.
+starter_code: |
+  def fizzbuzz(n):
+      result = []
+      return result
+public_examples:
+  - {input: "fizzbuzz(5)", output: "['1', '2', 'Fizz', '4', 'Buzz']"}
+tests:
+  - {id: five, kind: call, visibility: public, call: "fizzbuzz(5)", expected: "['1', '2', 'Fizz', '4', 'Buzz']"}
+  - {id: fifteen_last, kind: call, visibility: public, call: "fizzbuzz(15)[-1]", expected: "'FizzBuzz'", tags: [rule_order]}
+  - {id: empty, kind: call, visibility: hidden, call: "fizzbuzz(0)", expected: "[]", tags: [edge_case, zero]}
+  - {id: length, kind: call, visibility: hidden, call: "len(fizzbuzz(100))", expected: "100", tags: [off_by_one]}
+  - {id: thirty, kind: call, visibility: hidden, call: "fizzbuzz(30)[29]", expected: "'FizzBuzz'", tags: [rule_order]}
+  - {id: str_numbers, kind: call, visibility: hidden, call: "fizzbuzz(2)", expected: "['1', '2']", tags: [edge_case, types]}
+hints:
+  - "Переберите числа от 1 до n и для каждого решите, какую строку добавить в список."
+  - "Проверку «делится и на 3, и на 5» нужно делать первой — иначе сработает `Fizz`. Число превращается в строку через `str(i)`."
+  - "Схема: `for i in range(1, n + 1):` → `if i % 15 == 0: ...` → `elif i % 3 == 0: ...` → `elif i % 5 == 0: ...` → `else: result.append(str(i))`."
+solution: |
+  def fizzbuzz(n):
+      result = []
+      for i in range(1, n + 1):
+          if i % 15 == 0:
+              result.append("FizzBuzz")
+          elif i % 3 == 0:
+              result.append("Fizz")
+          elif i % 5 == 0:
+              result.append("Buzz")
+          else:
+              result.append(str(i))
+      return result
+wrong_solutions:
+  - name: wrong_order
+    code: |
+      def fizzbuzz(n):
+          result = []
+          for i in range(1, n + 1):
+              if i % 3 == 0:
+                  result.append("Fizz")
+              elif i % 5 == 0:
+                  result.append("Buzz")
+              elif i % 15 == 0:
+                  result.append("FizzBuzz")
+              else:
+                  result.append(str(i))
+          return result
+    why: "FizzBuzz недостижим."
+  - name: ints_not_strings
+    code: |
+      def fizzbuzz(n):
+          result = []
+          for i in range(1, n + 1):
+              if i % 15 == 0:
+                  result.append("FizzBuzz")
+              elif i % 3 == 0:
+                  result.append("Fizz")
+              elif i % 5 == 0:
+                  result.append("Buzz")
+              else:
+                  result.append(i)
+          return result
+    why: "Числа добавлены как int."
+tags: [for, modulo, list_append, rule_order]

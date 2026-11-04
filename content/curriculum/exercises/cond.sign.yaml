@@ -1,0 +1,58 @@
+id: cond.sign
+version: 1
+title: "Знак числа"
+skill: python.conditionals
+type: write_code
+role: practice
+difficulty: 1
+estimated_minutes: 5
+position: 1
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `sign(x)`, которая возвращает строку:
+
+  * `"positive"` — если `x > 0`;
+  * `"negative"` — если `x < 0`;
+  * `"zero"` — если `x == 0`.
+starter_code: |
+  def sign(x):
+      if x > 0:
+          return "positive"
+public_examples:
+  - {input: "sign(5)", output: "'positive'"}
+  - {input: "sign(-2)", output: "'negative'"}
+tests:
+  - {id: positive, kind: call, visibility: public, call: "sign(5)", expected: "'positive'"}
+  - {id: negative, kind: call, visibility: public, call: "sign(-2)", expected: "'negative'"}
+  - {id: zero, kind: call, visibility: hidden, call: "sign(0)", expected: "'zero'", tags: [edge_case, zero]}
+  - {id: float_neg, kind: call, visibility: hidden, call: "sign(-0.001)", expected: "'negative'", tags: [edge_case, float]}
+  - {id: large, kind: call, visibility: hidden, call: "sign(10**12)", expected: "'positive'"}
+hints:
+  - "Сколько всего вариантов результата? Каждому нужна своя ветка."
+  - "Используйте `if / elif / else`: две проверки и ветка «всё остальное»."
+  - "Схема: `if x > 0: ...` → `elif x < 0: ...` → `else: return \"zero\"`."
+solution: |
+  def sign(x):
+      if x > 0:
+          return "positive"
+      elif x < 0:
+          return "negative"
+      else:
+          return "zero"
+wrong_solutions:
+  - name: zero_as_positive
+    code: |
+      def sign(x):
+          if x >= 0:
+              return "positive"
+          return "negative"
+    why: "Ноль попадает в positive."
+  - name: missing_zero
+    code: |
+      def sign(x):
+          if x > 0:
+              return "positive"
+          elif x < 0:
+              return "negative"
+    why: "Для нуля возвращается None."
+tags: [if, elif, else]

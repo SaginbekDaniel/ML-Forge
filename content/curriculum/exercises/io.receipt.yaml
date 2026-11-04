@@ -1,0 +1,51 @@
+id: io.receipt
+version: 1
+title: "Чек"
+skill: python.io_types
+type: write_code
+role: assessment
+difficulty: 2
+estimated_minutes: 10
+position: 11
+execution_mode: script
+review_status: reviewed
+prompt_md: |
+  Программа читает две строки: **цену** товара (дробное число) и **количество** (целое).
+  Напечатайте стоимость покупки ровно с двумя знаками после точки в формате:
+
+  ```
+  Итого: 7.50
+  ```
+starter_code: |
+  price = input()
+  qty = input()
+public_examples:
+  - {input: "2.5\n3", output: "Итого: 7.50"}
+tests:
+  - {id: basic, kind: stdout, visibility: public, stdin: "2.5\n3\n", expected_stdout: "Итого: 7.50"}
+  - {id: zero_qty, kind: stdout, visibility: public, stdin: "99.99\n0\n", expected_stdout: "Итого: 0.00", tags: [edge_case, zero]}
+  - {id: rounding, kind: stdout, visibility: hidden, stdin: "0.1\n3\n", expected_stdout: "Итого: 0.30", tags: [edge_case, float_precision]}
+  - {id: integer_price, kind: stdout, visibility: hidden, stdin: "100\n2\n", expected_stdout: "Итого: 200.00"}
+  - {id: big, kind: stdout, visibility: hidden, stdin: "1234.5\n10\n", expected_stdout: "Итого: 12345.00"}
+hints:
+  - "Цена — `float`, количество — `int`. Результат нужно отформатировать."
+  - "Формат `:.2f` в f-строке округляет и оставляет ровно два знака: `f\"{0.30000000000000004:.2f}\"` даёт `0.30`."
+  - "Схема: `total = float(price) * int(qty)` → `print(f\"Итого: {total:.2f}\")`."
+solution: |
+  price = float(input())
+  qty = int(input())
+  print(f"Итого: {price * qty:.2f}")
+wrong_solutions:
+  - name: no_format
+    code: |
+      price = float(input())
+      qty = int(input())
+      print("Итого:", price * qty)
+    why: "Нет форматирования до двух знаков."
+  - name: round_only
+    code: |
+      price = float(input())
+      qty = int(input())
+      print(f"Итого: {round(price * qty, 2)}")
+    why: "round не добавляет завершающий ноль (7.5 вместо 7.50)."
+tags: [float, f-string, formatting]

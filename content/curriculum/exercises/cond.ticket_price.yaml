@@ -1,0 +1,77 @@
+id: cond.ticket_price
+version: 1
+title: "Цена билета"
+skill: python.conditionals
+type: write_code
+role: assessment
+difficulty: 2
+estimated_minutes: 10
+position: 11
+review_status: reviewed
+prompt_md: |
+  Функция `ticket_price(age, is_student)` возвращает цену билета в рублях (целое число).
+  Правила применяются **в этом порядке**, срабатывает первое подходящее:
+
+  1. младше 7 лет — `0`;
+  2. младше 18 лет — `200`;
+  3. 65 лет и старше — `150`;
+  4. студент (`is_student` истинно) — `250`;
+  5. все остальные — `400`.
+starter_code: |
+  def ticket_price(age, is_student):
+      pass
+public_examples:
+  - {input: "ticket_price(30, False)", output: "400"}
+  - {input: "ticket_price(20, True)", output: "250"}
+tests:
+  - {id: adult, kind: call, visibility: public, call: "ticket_price(30, False)", expected: "400"}
+  - {id: student, kind: call, visibility: public, call: "ticket_price(20, True)", expected: "250"}
+  - {id: child, kind: call, visibility: hidden, call: "ticket_price(6, False)", expected: "0", tags: [edge_case, boundary]}
+  - {id: age7, kind: call, visibility: hidden, call: "ticket_price(7, False)", expected: "200", tags: [edge_case, boundary]}
+  - {id: teen_student, kind: call, visibility: hidden, call: "ticket_price(17, True)", expected: "200", tags: [rule_order]}
+  - {id: age18, kind: call, visibility: hidden, call: "ticket_price(18, False)", expected: "400", tags: [edge_case, boundary]}
+  - {id: senior_student, kind: call, visibility: hidden, call: "ticket_price(70, True)", expected: "150", tags: [rule_order]}
+  - {id: age65, kind: call, visibility: hidden, call: "ticket_price(65, False)", expected: "150", tags: [edge_case, boundary]}
+hints:
+  - "Правила уже даны в нужном порядке — повторите этот порядок в коде."
+  - "Каждое правило — отдельная ветка `if/elif` с `return`. «Младше 7» — это `age < 7`, «65 и старше» — `age >= 65`."
+  - "Схема: `if age < 7: return 0` → `elif age < 18: return 200` → `elif age >= 65: ...` → `elif is_student: ...` → `return 400`."
+solution: |
+  def ticket_price(age, is_student):
+      if age < 7:
+          return 0
+      if age < 18:
+          return 200
+      if age >= 65:
+          return 150
+      if is_student:
+          return 250
+      return 400
+wrong_solutions:
+  - name: student_first
+    code: |
+      def ticket_price(age, is_student):
+          if is_student:
+              return 250
+          if age < 7:
+              return 0
+          if age < 18:
+              return 200
+          if age >= 65:
+              return 150
+          return 400
+    why: "Нарушен порядок правил."
+  - name: inclusive_boundaries
+    code: |
+      def ticket_price(age, is_student):
+          if age <= 7:
+              return 0
+          if age <= 18:
+              return 200
+          if age > 65:
+              return 150
+          if is_student:
+              return 250
+          return 400
+    why: "Неверные границы возрастов."
+tags: [rule_order, boundaries]

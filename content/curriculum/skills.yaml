@@ -1,0 +1,68 @@
+# ML Forge curriculum index: a versioned DAG of competencies (spec §3).
+# Skills with status "planned" are shown on the roadmap honestly as not yet available.
+version: 1
+tracks:
+  - id: python_core
+    title: "Python Core"
+  - id: data_analysis
+    title: "Data Analysis"
+skills:
+  - id: python.io_types
+    track: python_core
+    title: "Ввод/вывод и типы данных"
+    title_en: "Input/output and data types"
+    description: "print(), input(), int/float/str/bool, преобразование типов (type conversion), f-строки."
+    prerequisites: []
+  - id: python.conditionals
+    track: python_core
+    title: "Условия и логика"
+    title_en: "Conditionals and boolean logic"
+    description: "if/elif/else, операторы сравнения, and/or/not, порядок проверок."
+    prerequisites: [python.io_types]
+  - id: python.loops
+    track: python_core
+    title: "Циклы: for, while, range"
+    title_en: "Loops: for, while, range"
+    description: "for и range(), while, накопление результата (accumulator), break/continue, ошибки на единицу (off-by-one)."
+    prerequisites: [python.conditionals]
+  - id: python.strings_lists
+    track: python_core
+    title: "Строки и списки"
+    title_en: "Strings and lists"
+    description: "Индексы и срезы (slicing), методы строк, списки, сортировка, обход коллекций."
+    prerequisites: [python.loops]
+  - id: python.functions
+    track: python_core
+    title: "Функции и область видимости"
+    title_en: "Functions and scope"
+    description: "Параметры, return, значения по умолчанию, область видимости (scope), чистые функции."
+    prerequisites: [python.strings_lists]
+    status: planned
+  - id: python.dicts_sets
+    track: python_core
+    title: "Словари и множества"
+    title_en: "Dictionaries and sets"
+    description: "dict, set, подсчёт частот, группировка."
+    prerequisites: [python.strings_lists]
+    status: planned
+  - id: python.errors_files
+    track: python_core
+    title: "Исключения и файлы"
+    title_en: "Exceptions and files"
+    description: "try/except, собственные исключения, чтение и запись файлов, CSV."
+    prerequisites: [python.functions]
+    status: planned
+  - id: data.numpy_intro
+    track: data_analysis
+    title: "NumPy: массивы и векторизация"
+    title_en: "NumPy: arrays and vectorisation"
+    description: "ndarray, shape, broadcasting, векторизованные операции."
+    prerequisites: [python.functions, python.dicts_sets]
+    status: planned
+
+mastery_policy:
+  pass_threshold: 0.85
+  min_distinct_exercises: 2
+  require_no_hint_solve: true
+  require_independent_assessment: true
+  review_intervals_days: [1, 3, 7, 14, 30]

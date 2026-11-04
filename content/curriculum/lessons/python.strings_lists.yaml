@@ -1,0 +1,84 @@
+id: lesson.strings_lists
+version: 1
+skill: python.strings_lists
+title: "Строки и списки: индексы, срезы, методы"
+estimated_minutes: 25
+summary: "Последовательности в Python: как доставать элементы, резать на части и не ломать исходные данные."
+explanation_md: |
+  Строка (`str`) и список (`list`) — **последовательности** (sequences): у элементов есть индексы с `0`.
+
+  * `s[0]` — первый элемент, `s[-1]` — последний.
+  * Срез (slice) `s[start:stop:step]` возвращает **новую** последовательность, `stop` не включается.
+    `s[::-1]` — перевёрнутая копия.
+  * Строки **неизменяемы** (immutable): `s.upper()` возвращает новую строку, `s` не меняется.
+  * Списки **изменяемы** (mutable): `lst.append(x)`, `lst.sort()` меняют сам список и возвращают `None`.
+    `sorted(lst)` возвращает новый отсортированный список.
+  * Полезные методы строк: `split()`, `" ".join(parts)`, `strip()`, `lower()`, `replace()`.
+  * `len(x)` — длина; `x in s` — проверка вхождения.
+analogy_md: |
+  Строка — это надпись, высеченная на камне: её нельзя исправить, можно только высечь новую рядом.
+  Список — магнитная доска: магниты (элементы) можно переставлять, добавлять и снимать прямо на месте.
+definition_md: |
+  **Срез** (slicing) — получение подпоследовательности по диапазону индексов `[start, stop)` с шагом `step`.
+  **Неизменяемый объект** (immutable) нельзя изменить после создания; операции возвращают новый объект.
+examples:
+  - title: "Индексы и срезы"
+    code: |
+      s = "machine"
+      print(s[0], s[-1], s[1:4], s[::-1])
+    output: "m e ach enihcam"
+    note_md: "`s[1:4]` — символы с индексами 1, 2, 3."
+  - title: "split и join"
+    code: |
+      words = "  data  science is fun ".split()
+      print(words)
+      print("-".join(words))
+    output: |-
+      ['data', 'science', 'is', 'fun']
+      data-science-is-fun
+    note_md: "`split()` без аргументов режет по любым пробелам и выбрасывает пустые части."
+common_mistake:
+  code: |
+    nums = [3, 1, 2]
+    result = nums.sort()
+    print(result, nums)
+  output: "None [1, 2, 3]"
+  problem_md: "`list.sort()` сортирует **на месте** и возвращает `None`, поэтому `result` — это `None`."
+  fix_md: "Нужен новый список — используйте `sorted(nums)`; нужен отсортированный исходный — вызывайте `nums.sort()` без присваивания."
+check_questions:
+  - id: q1
+    prompt_md: "Что напечатает код?"
+    code: |
+      s = "python"
+      s.upper()
+      print(s)
+    answer: "python"
+    explanation_md: "Строки неизменяемы: `upper()` вернул новую строку, но её никуда не сохранили."
+  - id: q2
+    prompt_md: "Что напечатает код?"
+    code: |
+      a = [1, 2, 3]
+      b = a
+      b.append(4)
+      print(len(a))
+    answer: "4"
+    explanation_md: "`b = a` не копирует список: обе переменные ссылаются на один и тот же объект."
+  - id: q3
+    prompt_md: "Что напечатает код?"
+    code: |
+      letters = list("abcdef")
+      print(letters[::2], letters[-2:])
+    answer: "['a', 'c', 'e'] ['e', 'f']"
+    explanation_md: "Шаг 2 берёт каждый второй элемент; `[-2:]` — два последних."
+recap_md: |
+  * Индексы с нуля, отрицательные — с конца.
+  * Срез не включает `stop` и создаёт копию.
+  * Методы строк возвращают новые строки; `list.sort()` и `append()` меняют список и возвращают `None`.
+terms:
+  - {en: "sequence", ru: "последовательность"}
+  - {en: "slice", ru: "срез"}
+  - {en: "immutable / mutable", ru: "неизменяемый / изменяемый"}
+  - {en: "in-place", ru: "на месте"}
+resources:
+  - {title: "Python Tutorial — Strings", url: "https://docs.python.org/3/tutorial/introduction.html#text"}
+  - {title: "Python Tutorial — More on Lists", url: "https://docs.python.org/3/tutorial/datastructures.html#more-on-lists"}

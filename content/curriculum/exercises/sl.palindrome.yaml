@@ -1,0 +1,49 @@
+id: sl.palindrome
+version: 1
+title: "Палиндром"
+skill: python.strings_lists
+type: write_code
+role: assessment
+difficulty: 2
+estimated_minutes: 10
+position: 10
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `is_palindrome(text)`, которая возвращает `True`, если строка читается одинаково
+  в обе стороны, **учитывая только буквы и цифры** и **без учёта регистра**.
+
+  `is_palindrome("А роза упала на лапу Азора")` → `True`
+starter_code: |
+  def is_palindrome(text):
+      pass
+public_examples:
+  - {input: "is_palindrome('racecar')", output: "True"}
+tests:
+  - {id: simple, kind: call, visibility: public, call: "is_palindrome('racecar')", expected: "True"}
+  - {id: not_pal, kind: call, visibility: public, call: "is_palindrome('python')", expected: "False"}
+  - {id: phrase_ru, kind: call, visibility: hidden, call: "is_palindrome('А роза упала на лапу Азора')", expected: "True", tags: [case, whitespace]}
+  - {id: punctuation, kind: call, visibility: hidden, call: "is_palindrome('Was it a car or a cat I saw?')", expected: "True", tags: [punctuation]}
+  - {id: empty, kind: call, visibility: hidden, call: "is_palindrome('')", expected: "True", tags: [edge_case, empty]}
+  - {id: digits, kind: call, visibility: hidden, call: "is_palindrome('12 3 21')", expected: "True", tags: [edge_case, digits]}
+  - {id: almost, kind: call, visibility: hidden, call: "is_palindrome('ab')", expected: "False", tags: [edge_case]}
+hints:
+  - "Сначала очистите строку от всего лишнего, потом сравнивайте."
+  - "`ch.isalnum()` истинно для букв и цифр (включая кириллицу). После очистки приведите к нижнему регистру."
+  - "Схема: `clean = ''.join(ch.lower() for ch in text if ch.isalnum())` → `return clean == clean[::-1]`."
+solution: |
+  def is_palindrome(text):
+      clean = "".join(ch.lower() for ch in text if ch.isalnum())
+      return clean == clean[::-1]
+wrong_solutions:
+  - name: raw_compare
+    code: |
+      def is_palindrome(text):
+          return text == text[::-1]
+    why: "Не убирает пробелы и регистр."
+  - name: keeps_punctuation
+    code: |
+      def is_palindrome(text):
+          clean = text.lower().replace(" ", "")
+          return clean == clean[::-1]
+    why: "Знаки препинания остаются."
+tags: [strings, isalnum, slicing]

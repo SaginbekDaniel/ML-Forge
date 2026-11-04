@@ -1,0 +1,50 @@
+id: io.sum_two
+version: 1
+title: "Сумма двух чисел"
+skill: python.io_types
+type: write_code
+role: practice
+difficulty: 1
+estimated_minutes: 5
+position: 2
+execution_mode: script
+review_status: reviewed
+prompt_md: |
+  На вход подаются **два целых числа**, каждое на своей строке.
+  Напечатайте их сумму.
+
+  Помните: `input()` возвращает строку.
+starter_code: |
+  a = input()
+  b = input()
+  print(a + b)
+public_examples:
+  - {input: "2\n3", output: "5"}
+tests:
+  - {id: basic, kind: stdout, visibility: public, stdin: "2\n3\n", expected_stdout: "5", description: "2 + 3"}
+  - {id: negative, kind: stdout, visibility: public, stdin: "-7\n4\n", expected_stdout: "-3", description: "отрицательное число", tags: [edge_case, negative]}
+  - {id: zeros, kind: stdout, visibility: hidden, stdin: "0\n0\n", expected_stdout: "0", tags: [edge_case, zero]}
+  - {id: big, kind: stdout, visibility: hidden, stdin: "123456789\n987654321\n", expected_stdout: "1111111110"}
+  - {id: spaces, kind: stdout, visibility: hidden, stdin: " 10 \n 5\n", expected_stdout: "15", tags: [edge_case, whitespace]}
+hints:
+  - "Сейчас программа склеивает две строки. Что нужно сделать со строками перед сложением?"
+  - "`int(\"  10 \")` спокойно обрабатывает пробелы по краям и превращает текст в целое число."
+  - "Схема: `a = int(input())`, то же для `b`, затем `print(a + b)`."
+solution: |
+  a = int(input())
+  b = int(input())
+  print(a + b)
+wrong_solutions:
+  - name: string_concat
+    code: |
+      a = input()
+      b = input()
+      print(a + b)
+    why: "Строки склеиваются, а не складываются."
+  - name: float_output
+    code: |
+      a = float(input())
+      b = float(input())
+      print(a + b)
+    why: "Печатает 5.0 вместо 5."
+tags: [input, int, type_conversion]

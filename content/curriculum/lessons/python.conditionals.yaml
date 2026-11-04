@@ -1,0 +1,100 @@
+id: lesson.conditionals
+version: 1
+skill: python.conditionals
+title: "Условия: if, elif, else"
+estimated_minutes: 20
+summary: "Как программа выбирает, что делать, и почему порядок проверок важен."
+explanation_md: |
+  Условный оператор выполняет блок кода, только если **условие истинно** (`True`).
+
+  ```python
+  if condition:
+      ...        # выполняется, если condition истинно
+  elif other:
+      ...        # проверяется, только если предыдущие условия ложны
+  else:
+      ...        # если ни одно условие не подошло
+  ```
+
+  * Сравнения: `==`, `!=`, `<`, `<=`, `>`, `>=` — каждое даёт `bool`.
+  * Логические операторы: `and` (оба истинны), `or` (хотя бы одно), `not` (отрицание).
+  * Цепочка сравнений: `0 <= score <= 100` читается как в математике.
+  * В цепочке `if/elif` срабатывает **первая** подходящая ветка — остальные даже не проверяются.
+    Поэтому более узкие условия ставят раньше более широких.
+  * Отступ (indentation) — часть синтаксиса: тело ветки сдвигается на 4 пробела.
+analogy_md: |
+  Это охранник на входе со списком правил, который читает их **сверху вниз** и действует по первому подходящему.
+  Если первым правилом стоит «всем старше 0 лет — общий вход», до правила «детям до 7 лет — бесплатно» он не дойдёт никогда.
+definition_md: |
+  **Условное ветвление** (conditional branching) — выбор одного из нескольких путей выполнения
+  в зависимости от значения логического выражения (boolean expression).
+examples:
+  - title: "Классификация температуры"
+    code: |
+      t = 18
+      if t >= 25:
+          print("жарко")
+      elif t >= 15:
+          print("тепло")
+      else:
+          print("холодно")
+    output: "тепло"
+    note_md: "18 не проходит `>= 25`, но проходит `>= 15` — дальше проверки не идут."
+  - title: "Комбинирование условий"
+    code: |
+      age = 20
+      has_ticket = True
+      print(age >= 18 and has_ticket, not has_ticket or age < 10)
+    output: "True False"
+    note_md: "`and` требует обоих условий; `not has_ticket` ложно, `age < 10` ложно → `False`."
+common_mistake:
+  code: |
+    score = 95
+    if score >= 60:
+        print("C")
+    elif score >= 90:
+        print("A")
+  output: "C"
+  problem_md: "Широкое условие `>= 60` стоит первым и «перехватывает» 95, поэтому ветка `A` недостижима."
+  fix_md: "Проверяйте от самого строгого условия к самому широкому: сначала `>= 90`, затем `>= 60`."
+check_questions:
+  - id: q1
+    prompt_md: "Что напечатает код?"
+    code: |
+      x = 0
+      if x:
+          print("yes")
+      else:
+          print("no")
+    answer: "no"
+    explanation_md: "`0` в логическом контексте ложно (falsy), как и `\"\"`, `[]`, `None`."
+  - id: q2
+    prompt_md: "Что напечатает код?"
+    code: |
+      a, b = 3, 7
+      print(a > 5 or b > 5, a > 5 and b > 5)
+    answer: "True False"
+    explanation_md: "`or` достаточно одного истинного (b > 5), `and` нужны оба."
+  - id: q3
+    prompt_md: "Что напечатает код?"
+    code: |
+      n = 12
+      if n % 2 == 0 and n % 3 == 0:
+          print("делится на 6")
+      elif n % 2 == 0:
+          print("чётное")
+    answer: "делится на 6"
+    explanation_md: "12 делится и на 2, и на 3 — срабатывает первая ветка, вторая не проверяется."
+recap_md: |
+  * Срабатывает первая истинная ветка `if/elif`.
+  * Ставьте узкие условия раньше широких.
+  * `0`, `""`, `[]`, `None` — ложны в условиях.
+terms:
+  - {en: "condition", ru: "условие"}
+  - {en: "branch", ru: "ветка"}
+  - {en: "boolean", ru: "логический тип"}
+  - {en: "indentation", ru: "отступ"}
+  - {en: "falsy / truthy", ru: "ложное / истинное в логическом контексте"}
+resources:
+  - {title: "Python Tutorial — if Statements", url: "https://docs.python.org/3/tutorial/controlflow.html#if-statements"}
+  - {title: "Truth Value Testing", url: "https://docs.python.org/3/library/stdtypes.html#truth-value-testing"}

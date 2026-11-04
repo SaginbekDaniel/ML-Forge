@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+# Local data (learning progress, backups) — never committed
+data/
+*.db
+*.db-wal
+*.db-shm
+# Secrets
+.env
+.env.*
+!.env.example
+# Node / Next
+node_modules/
+apps/web/.next/
+apps/web/out/
+apps/web/next-env.d.ts
+*.tsbuildinfo
+# Test output
+test-results/
+playwright-report/
+tests/e2e/.artifacts/
+coverage/
+.DS_Store

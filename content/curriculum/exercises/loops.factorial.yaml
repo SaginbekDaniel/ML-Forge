@@ -1,0 +1,59 @@
+id: loops.factorial
+version: 1
+title: "Факториал"
+skill: python.loops
+type: write_code
+role: assessment
+difficulty: 2
+estimated_minutes: 10
+position: 10
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `factorial(n)`, которая возвращает `n! = 1 · 2 · … · n` с помощью цикла.
+
+  * `factorial(0)` равен `1`;
+  * для отрицательного `n` выбросите `ValueError`.
+starter_code: |
+  def factorial(n):
+      pass
+public_examples:
+  - {input: "factorial(5)", output: "120"}
+tests:
+  - {id: five, kind: call, visibility: public, call: "factorial(5)", expected: "120"}
+  - {id: zero, kind: call, visibility: public, call: "factorial(0)", expected: "1", tags: [edge_case, zero]}
+  - {id: one, kind: call, visibility: hidden, call: "factorial(1)", expected: "1", tags: [edge_case]}
+  - {id: ten, kind: call, visibility: hidden, call: "factorial(10)", expected: "3628800", tags: [off_by_one]}
+  - {id: twenty, kind: call, visibility: hidden, call: "factorial(20)", expected: "2432902008176640000"}
+  - {id: negative, kind: call, visibility: hidden, call: "factorial(-1)", raises: ValueError, tags: [edge_case, validation]}
+hints:
+  - "Нужен накопитель произведения. С какого значения он должен начинаться?"
+  - "Начните с `1` (нейтральный элемент умножения) и умножайте на каждое число от 2 до n включительно."
+  - "Схема: `if n < 0: raise ValueError(...)` → `result = 1` → `for i in range(2, n + 1): result *= i`."
+solution: |
+  def factorial(n):
+      if n < 0:
+          raise ValueError("n must be non-negative")
+      result = 1
+      for i in range(2, n + 1):
+          result *= i
+      return result
+wrong_solutions:
+  - name: off_by_one
+    code: |
+      def factorial(n):
+          if n < 0:
+              raise ValueError("n must be non-negative")
+          result = 1
+          for i in range(1, n):
+              result *= i
+          return result
+    why: "Не умножает на n."
+  - name: no_validation
+    code: |
+      def factorial(n):
+          result = 1
+          for i in range(2, n + 1):
+              result *= i
+          return result
+    why: "Для отрицательных возвращает 1."
+tags: [for, accumulator, raise]

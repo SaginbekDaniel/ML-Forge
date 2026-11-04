@@ -1,0 +1,70 @@
+id: loops.count_digits
+version: 1
+title: "Количество цифр"
+skill: python.loops
+type: write_code
+role: practice
+difficulty: 2
+estimated_minutes: 10
+position: 2
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `count_digits(n)`, которая возвращает количество цифр в целом числе `n`,
+  **не превращая его в строку** — с помощью цикла `while` и целочисленного деления на 10.
+
+  * `count_digits(12345)` → `5`
+  * у нуля одна цифра: `count_digits(0)` → `1`
+  * знак не считается: `count_digits(-907)` → `3`
+starter_code: |
+  def count_digits(n):
+      count = 0
+      while n > 0:
+          n = n // 10
+          count += 1
+      return count
+public_examples:
+  - {input: "count_digits(12345)", output: "5"}
+tests:
+  - {id: basic, kind: call, visibility: public, call: "count_digits(12345)", expected: "5"}
+  - {id: single, kind: call, visibility: public, call: "count_digits(7)", expected: "1"}
+  - {id: zero, kind: call, visibility: hidden, call: "count_digits(0)", expected: "1", tags: [edge_case, zero]}
+  - {id: negative, kind: call, visibility: hidden, call: "count_digits(-907)", expected: "3", tags: [edge_case, negative]}
+  - {id: power_of_ten, kind: call, visibility: hidden, call: "count_digits(1000)", expected: "4", tags: [edge_case, trailing_zeros]}
+  - {id: big, kind: call, visibility: hidden, call: "count_digits(10**18)", expected: "19"}
+hints:
+  - "Код уже работает для положительных чисел. Что происходит с циклом, если `n` равно 0 или отрицательно?"
+  - "Возьмите модуль числа через `abs(n)`. Ноль — особый случай: цикл не выполнится ни разу, а цифра одна."
+  - "Схема: `n = abs(n)` → `if n == 0: return 1` → затем исходный цикл `while n > 0`."
+solution: |
+  def count_digits(n):
+      n = abs(n)
+      if n == 0:
+          return 1
+      count = 0
+      while n > 0:
+          n //= 10
+          count += 1
+      return count
+wrong_solutions:
+  - name: zero_case
+    code: |
+      def count_digits(n):
+          n = abs(n)
+          count = 0
+          while n > 0:
+              n //= 10
+              count += 1
+          return count
+    why: "Для 0 возвращает 0."
+  - name: negative_case
+    code: |
+      def count_digits(n):
+          if n == 0:
+              return 1
+          count = 0
+          while n > 0:
+              n //= 10
+              count += 1
+          return count
+    why: "Отрицательные числа дают 0."
+tags: [while, integer_division, edge_cases]

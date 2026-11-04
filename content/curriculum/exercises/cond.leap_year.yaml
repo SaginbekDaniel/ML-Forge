@@ -1,0 +1,55 @@
+id: cond.leap_year
+version: 1
+title: "Високосный год"
+skill: python.conditionals
+type: write_code
+role: practice
+difficulty: 2
+estimated_minutes: 10
+position: 2
+review_status: reviewed
+prompt_md: |
+  Напишите функцию `is_leap(year)`, которая возвращает `True`, если год високосный (leap year), иначе `False`.
+
+  Правило григорианского календаря:
+
+  1. год, кратный **400**, — високосный;
+  2. иначе год, кратный **100**, — **не** високосный;
+  3. иначе год, кратный **4**, — високосный;
+  4. остальные — нет.
+starter_code: |
+  def is_leap(year):
+      return year % 4 == 0
+public_examples:
+  - {input: "is_leap(2024)", output: "True"}
+  - {input: "is_leap(2023)", output: "False"}
+tests:
+  - {id: div4, kind: call, visibility: public, call: "is_leap(2024)", expected: "True"}
+  - {id: common, kind: call, visibility: public, call: "is_leap(2023)", expected: "False"}
+  - {id: century, kind: call, visibility: hidden, call: "is_leap(1900)", expected: "False", tags: [edge_case, century]}
+  - {id: div400, kind: call, visibility: hidden, call: "is_leap(2000)", expected: "True", tags: [edge_case, div400]}
+  - {id: century2100, kind: call, visibility: hidden, call: "is_leap(2100)", expected: "False", tags: [century]}
+  - {id: year4, kind: call, visibility: hidden, call: "is_leap(4)", expected: "True"}
+hints:
+  - "Правила проверяются в определённом порядке — от самого узкого (400) к самому широкому (4)."
+  - "Можно записать цепочкой `if/elif` или одним выражением: `(кратен 4 и не кратен 100) или кратен 400`."
+  - "Схема: `if year % 400 == 0: return True` → `if year % 100 == 0: return False` → `return year % 4 == 0`."
+solution: |
+  def is_leap(year):
+      return (year % 4 == 0 and year % 100 != 0) or year % 400 == 0
+wrong_solutions:
+  - name: only_div4
+    code: |
+      def is_leap(year):
+          return year % 4 == 0
+    why: "Не учитывает века."
+  - name: wrong_order
+    code: |
+      def is_leap(year):
+          if year % 100 == 0:
+              return False
+          if year % 400 == 0:
+              return True
+          return year % 4 == 0
+    why: "Проверка 100 стоит раньше 400 — 2000 считается невисокосным."
+tags: [modulo, boolean, order_of_checks]
