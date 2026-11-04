@@ -187,6 +187,17 @@ class DockerSandbox:
             self.image,
         ]
 
+    def job_payload(self, nonce: str, source: str, tests: list[dict]) -> bytes:
+        """The ONLY data sent into the container: inputs, never expected values."""
+        return json.dumps(
+            {
+                "nonce": nonce,
+                "source": source,
+                "tests": [{k: t.get(k) for k in ("id", "kind", "call", "stdin")} for t in tests],
+                "limits": self.limits.harness_limits(),
+            }
+        ).encode("utf-8")
+
     def run(self, job_id: str, source: str, tests: list[dict]) -> SandboxOutcome:
         """Run learner ``source`` against ``tests`` (inputs only, no expectations)."""
         health = self.health()
@@ -196,14 +207,7 @@ class DockerSandbox:
         nonce = secrets.token_hex(16)
         safe_id = "".join(c if c.isalnum() or c in "_.-" else "-" for c in job_id)
         name = f"mlforge-{secrets.token_hex(4)}-{safe_id}"[:63]
-        payload = json.dumps(
-            {
-                "nonce": nonce,
-                "source": source,
-                "tests": [{k: t.get(k) for k in ("id", "kind", "call", "stdin")} for t in tests],
-                "limits": self.limits.harness_limits(),
-            }
-        ).encode("utf-8")
+        payload = self.job_payload(nonce, source, tests)
         wall_timeout = self.limits.total_budget_s + self.limits.startup_slack_s
         started = time.perf_counter()
         with self._lock:

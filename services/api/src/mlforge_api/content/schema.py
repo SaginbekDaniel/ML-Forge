@@ -108,6 +108,8 @@ class LessonSpec(Strict):
 
 
 class TestSpec(Strict):
+    __test__ = False  # not a pytest test class
+
     id: str
     kind: Literal["call", "stdout"]
     visibility: Literal["public", "hidden"] = "public"

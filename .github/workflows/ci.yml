@@ -1,0 +1,26 @@
+name: ci
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: uv sync
+      - run: cd apps/web && pnpm install --frozen-lockfile
+      - run: cd tests/e2e && pnpm install --frozen-lockfile && pnpm exec playwright install --with-deps chromium
+      - run: ./scripts/runner_build.sh
+      - run: make lint
+      - run: make test
+      - run: make smoke
+      - run: make e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with: { name: e2e-artifacts, path: tests/e2e/.artifacts }

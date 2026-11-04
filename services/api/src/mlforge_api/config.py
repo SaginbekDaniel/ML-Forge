@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     anthropic_api_key: SecretStr | None = Field(
         default=None, validation_alias=AliasChoices("ANTHROPIC_API_KEY", "MLFORGE_ANTHROPIC_API_KEY")
     )
-    ai_model: str = "claude-sonnet-5-5"
+    ai_model: str = "claude-opus-5-5"
 
     @property
     def resolved_database_url(self) -> str:

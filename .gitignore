@@ -25,3 +25,4 @@ playwright-report/
 tests/e2e/.artifacts/
 coverage/
 .DS_Store
+apps/web/.next-e2e/
