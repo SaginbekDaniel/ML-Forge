@@ -9,7 +9,7 @@ from sqlalchemy import select
 from ..deps import DB, RT, CurrentProfile
 from ..domain.queries import iso
 from ..errors import APIError, not_found
-from ..models import Diagnostic, DiagnosticAnswer, Profile, Skill, utcnow
+from ..models import Diagnostic, DiagnosticAnswer, Profile, Skill, Submission, utcnow
 
 router = APIRouter(prefix="/api/v1")
 
@@ -105,6 +105,10 @@ def start_diagnostic(profile: CurrentProfile, db: DB, rt: RT) -> dict:
     d = db.scalars(
         select(Diagnostic).where(Diagnostic.profile_id == profile.id, Diagnostic.status == "in_progress")
     ).first()
+    if d is None:  # show the latest finished diagnostic instead of silently starting a new one
+        d = db.scalars(
+            select(Diagnostic).where(Diagnostic.profile_id == profile.id).order_by(Diagnostic.started_at.desc())
+        ).first()
     if d is None:
         d = Diagnostic(profile_id=profile.id)
         db.add(d)
@@ -201,10 +205,24 @@ def complete_diagnostic(diag_id: str, profile: CurrentProfile, db: DB, rt: RT) -
         (r["skill_id"] for r in recs if r["recommendation"] == "start_with_lesson"),
         recs[0]["skill_id"] if recs else None,
     )
+    practical_sub = db.scalars(
+        select(Submission)
+        .where(
+            Submission.profile_id == profile.id,
+            Submission.exercise_id == rt.diagnostic.practical_exercise,
+            Submission.mode == "diagnostic",
+            Submission.kind == "submit",
+        )
+        .order_by(Submission.submitted_at.desc())
+    ).first()
+    practical = {"attempted": practical_sub is not None, "passed": None, "total": None}
+    if practical_sub is not None and practical_sub.job is not None:
+        practical["passed"], practical["total"] = practical_sub.job.passed, practical_sub.job.total
     d.result = {
         "skills": recs,
         "recommended_start_skill": start,
         "answer_key": {q.id: q.answer for q in rt.diagnostic.questions if q.type == "predict_output"},
+        "practical": practical,
     }
     d.status, d.completed_at = "completed", utcnow()
     if profile.onboarding_completed_at is None:

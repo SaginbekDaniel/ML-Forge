@@ -1,0 +1,218 @@
+@import "tailwindcss";
+
+/*
+ * ML Forge design tokens. Every colour/radius used by components comes from here;
+ * components reference them through Tailwind utilities (bg-surface, text-muted, ...).
+ * Dark is the default; [data-theme="light"] on <html> switches palettes.
+ */
+:root {
+  --bg: #0c0f13;
+  --surface: #12161c;
+  --surface-2: #181d25;
+  --surface-3: #1f2530;
+  --border: #252c37;
+  --border-strong: #354050;
+  --text: #e5e8ed;
+  --text-muted: #9ba4b1;
+  --text-subtle: #6f7886;
+  --accent: #6aa6ff;
+  --accent-strong: #8ab9ff;
+  --accent-soft: rgb(106 166 255 / 0.12);
+  --accent-contrast: #0b1220;
+  --success: #46c08a;
+  --success-soft: rgb(70 192 138 / 0.12);
+  --warning: #e2b24a;
+  --warning-soft: rgb(226 178 74 / 0.12);
+  --danger: #f06a74;
+  --danger-soft: rgb(240 106 116 / 0.12);
+  --focus: #8ab9ff;
+  --code-bg: #0f1318;
+  --syntax-keyword: #c792ea;
+  --syntax-string: #a5d6a7;
+  --syntax-number: #f7b267;
+  --syntax-comment: #6f7886;
+  --syntax-function: #82aaff;
+  --syntax-def: #ffcb6b;
+  --selection: rgb(106 166 255 / 0.28);
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #f1f3f6;
+  --surface-3: #e8ebf0;
+  --border: #dde1e7;
+  --border-strong: #c5ccd6;
+  --text: #161a20;
+  --text-muted: #525c6a;
+  --text-subtle: #7a8391;
+  --accent: #1f63d6;
+  --accent-strong: #174ea9;
+  --accent-soft: rgb(31 99 214 / 0.09);
+  --accent-contrast: #ffffff;
+  --success: #17804f;
+  --success-soft: rgb(23 128 79 / 0.1);
+  --warning: #966306;
+  --warning-soft: rgb(150 99 6 / 0.1);
+  --danger: #c4303c;
+  --danger-soft: rgb(196 48 60 / 0.09);
+  --focus: #1f63d6;
+  --code-bg: #fbfcfd;
+  --syntax-keyword: #7a3eb1;
+  --syntax-string: #2f7a3a;
+  --syntax-number: #a35a00;
+  --syntax-comment: #7a8391;
+  --syntax-function: #1f55b8;
+  --syntax-def: #8a5a00;
+  --selection: rgb(31 99 214 / 0.18);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-subtle: var(--text-subtle);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-code: var(--code-bg);
+
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Inter, Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, "JetBrains Mono", Consolas, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 0.875rem;
+  --text-base--line-height: 1.375rem;
+  --text-lg: 1rem;
+  --text-lg--line-height: 1.5rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--selection);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+  code,
+  pre,
+  kbd {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Long-form lesson/task text rendered from Markdown. */
+.prose-forge {
+  color: var(--text);
+  line-height: 1.6;
+}
+.prose-forge > * + * {
+  margin-top: 0.75rem;
+}
+.prose-forge h2,
+.prose-forge h3 {
+  font-weight: 600;
+  margin-top: 1.25rem;
+}
+.prose-forge ul,
+.prose-forge ol {
+  padding-left: 1.25rem;
+}
+.prose-forge ul {
+  list-style: disc;
+}
+.prose-forge ol {
+  list-style: decimal;
+}
+.prose-forge li + li {
+  margin-top: 0.25rem;
+}
+.prose-forge strong {
+  font-weight: 600;
+  color: var(--text);
+}
+.prose-forge a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-forge :not(pre) > code {
+  background: var(--surface-3);
+  border-radius: var(--radius-sm);
+  padding: 0.05rem 0.3rem;
+  font-size: 0.85em;
+}
+.prose-forge pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.875rem;
+  overflow-x: auto;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+.prose-forge table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  display: block;
+  overflow-x: auto;
+}
+.prose-forge th,
+.prose-forge td {
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.6rem;
+  text-align: left;
+}
+.prose-forge th {
+  background: var(--surface-2);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
